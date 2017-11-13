@@ -29,14 +29,25 @@ let redraw = (data) => {
 
   var yScale = d3.scaleLinear()
   .domain([0, maxValue])
-  .range([0, height])
+  .range([0, height-margin])
+
 
   var xScale = d3.scaleLinear()
   .domain([0, GoalsScored.length])
   .range([0, width])
 
+  let yAxis = d3.axisLeft(yScale)
+
+  let xAxis = d3.axisBottom(xScale)
 
 
+  svg.append("g")
+  .attr("transform", "translate(40,0)")
+  .call(yAxis)
+
+  svg.append("g")
+  .attr("transform", "translate(40,280)")
+  .call(xAxis)
 
   svg.selectAll('rect')
     .data(GoalsScored)
@@ -44,24 +55,20 @@ let redraw = (data) => {
     .append('rect')
     .attr('class','bar')
     .attr('x', (d,i)=>{
-      return i * 16
+      return (i * 13)+marginLeft
     })
+    .attr('y',height-margin)
+    .transition().delay(500)
     .attr('y', (d)=>{
-      return height - yScale(d)
+      return height - yScale(d) - margin
     })
     .attr('width',(d)=>{
-      return 15
+      return 12
     })
     .attr('height', (d)=>{
       return yScale(d)
     })
 
-    var xAxis = d3.svg.axis()
-        .scale(xScale)
-        .orient("bottom")
-
-    svg.append("g")
-          .call(xAxis);
 
 
 
