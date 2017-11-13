@@ -1,10 +1,9 @@
 /* global d3 */
-
 // Our canvas
 const width = 1000,
   height = 300,
   margin = 20
-marginLeft = 40
+  marginLeft = 40
 
 // Drawing area
 let svg = d3.select('#results')
