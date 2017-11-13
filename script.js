@@ -40,11 +40,11 @@ let redraw = (data) => {
 
   const xAxis = d3.axisBottom(xScale)
 
-  const yAxis = d3.axisRight(yScaleAxis)
+  const yAxis = d3.axisLeft(yScaleAxis)
 
   // Your data to graph here
   let yAxisGroup = svg.append('g')
-      .attr('transform', 'translate(0, -15)')
+      .attr('transform', 'translate(40, -15)')
       .call(yAxis)
   let xAxisGroup = svg.append('g')
       .attr('transform', `translate(40, ${height - 15})`)
@@ -56,11 +56,16 @@ let redraw = (data) => {
       .append('rect')
       .attr('transform', 'translate(40, -15)')
       .attr('class', 'bar')
-      .attr('x', (d, i) => xScale(i))
-      .attr('y', (d) => height - yScale(d.GoalsScored))
       .attr('width', 20)
-      .attr('height', d => yScale(d.GoalsScored))
-      .attr('fill', d => colorScale(d.GoalsScored))
+      .attr('x', (d, i) => xScale(i))
+      .attr('y', (d) => height)
+      .attr('height', 0)
+      .transition()
+        .duration(700)
+        .ease(d3.easeLinear)
+        .attr('y', (d) => height - yScale(d.GoalsScored))
+        .attr('height', d => yScale(d.GoalsScored))
+        .attr('fill', d => colorScale(d.GoalsScored))
 }
 
 reload()
