@@ -41,6 +41,7 @@ let redraw = (data) => {
                 .attr('y', (d) => { return (height - 20) - yScale(d)})
                 .attr('width', 20 + 'px')
                 .attr('height', (d) => { return yScale(d) })
+                .attr('')
                 let yAxis = d3.axisLeft().scale(yScale)
                 let xAxis = d3.axisBottom().scale(xScale)            
                 svg.append('g')
