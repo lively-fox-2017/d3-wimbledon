@@ -36,6 +36,7 @@ const yScale = d3.scaleLinear()
     .range([0, height])
 
 const xScale = d3.scaleLinear()
+    .domain([0, state.length])
     .range([0, width])
 
     svg.selectAll('rect')
@@ -54,6 +55,17 @@ const xScale = d3.scaleLinear()
       return yScale(d)
     })
     .attr('fill', yScale)
+
+    let yAxis = d3.axisLeft().scale(yScale)
+    let xAxis = d3.axisBottom().scale(xScale)
+
+    svg.append('g')
+    .attr('transform', 'translate(30, 0)')
+    .call(yAxis)
+
+    svg.append('g')
+    .attr('transform', 'translate(0, 280)')
+    .call(xAxis)
 }
 
 reload()
