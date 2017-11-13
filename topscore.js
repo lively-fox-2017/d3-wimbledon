@@ -18,6 +18,7 @@ const draw = (words) => {
             .on("end", draw)
             .start()
 
+function draw (words) {
   d3.select("body").append("svg")
                 .attr("width", 850)
                 .attr("height", 350)
@@ -33,13 +34,14 @@ const draw = (words) => {
                     return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
                 })
                 .text(function(d) { return d.text; })
+  }
 }
 
 
 const load = () => {
   // Load your data here...
   d3.tsv('stats.tsv', (rows) => {
-    words = rows.map((data) => {
+  let  words = rows.map((data) => {
       return {text: data.Name, size: data.G}
     })
     draw(words)
