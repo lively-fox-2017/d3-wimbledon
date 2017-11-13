@@ -1,20 +1,49 @@
 /* global d3 */
 
 // Our canvas
-const width = 750,
-  height = 300,
-  margin = 20
-marginLeft = 40
+const canvasWidth = 750,
+      canvasHeight = 300,
+      canvasMargin = 20
+      canvasMarginLeft = 40
 
 // Drawing area
-let svg = d3.select('#results')
+d3.select('#results')
   .append('svg')
-  .attr('width', width)
-  .attr('height', height)
+  .attr('width', canvasWidth)
+  .attr('height', canvasHeight)
+
+let svg = d3.select('svg')
 
 // Data reloading
 let reload = () => {
-  // Your data parsing here...
+  d3.tsv('afcw-results.tsv', (games) => {
+
+    const goals = [];
+
+    games.forEach((game) => {
+      goals.push(parseInt(game.GoalsScored))
+    })
+
+    const yScale = d3.scaleLinear()
+                     .domain([0, Math.max(...goals)])
+                     .range([0, canvasHeight])
+
+    svg.selectAll('rect')
+       .data(games)
+       .enter()
+       .append('rect')
+       .attr('width', canvasMargin)
+       .attr('height', (game) => {
+          return game.GoalsScored * 60
+       })
+       .attr('x', (game, index) => {
+          return index * 22
+       })
+       .attr('y', (game) => {
+          return canvasHeight - game.GoalsScored * 60
+       })
+       .attr('fill', 'teal')
+  })
 }
 
 // redraw function
