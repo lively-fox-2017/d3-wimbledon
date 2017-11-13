@@ -27,7 +27,7 @@ let redraw = (data) => {
   const yScale = 
   d3.scaleLinear()
   .domain([0, d3.max(data)])
-  .range([height - 50, 0])
+  .range([0, height - 50])
 
   const xScale =
   d3.scaleLinear()
@@ -49,10 +49,13 @@ let redraw = (data) => {
   .append('rect')
   .attr('transform', 'translate(0, -25)')
   .attr('x', (d, idx) => xScale(idx))
-  .attr('y', d => 300 - (yScale(0) - yScale(d)))
   .attr('width', 12)
-  .attr('height', d => yScale(0) - yScale(d))
   .attr('fill', 'teal')
+  .attr('y', 300)
+  .attr('height', 0)
+  .transition().delay((d, i) => i * 100).duration(500)
+  .attr('y', d => 300 - yScale(d))
+  .attr('height', d => yScale(d))
 
   svg.append('g')
   .attr('transform', 'translate(0, 275)')

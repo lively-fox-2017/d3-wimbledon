@@ -20,9 +20,9 @@ const draw = (words) => {
   .style('font-size', d => d.goals + 'px')
   .style('fill', (d, i) => fill(i))
   .attr('text-anchor', 'middle')
+  .transition().delay((d, i) => i * 50)
   .attr('transform', d => 'translate(' + [d.x, d.y] + ')rotate(' + d.rotate + ') scale(1.5)')
   .text(d => d.name)
-
 }
 
 const load = () => {
