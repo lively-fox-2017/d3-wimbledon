@@ -6,12 +6,15 @@ let leaderScale = d3.scaleLinear()
 
 const draw = (words) => {
   // Draw your data here...
-
+  
 }
 
 
 const load = () => {
   // Load your data here...
+ d3.tsv('stats.tsv', (data)=>{
+   console.log(data)
+ })
 }
 
 load()
