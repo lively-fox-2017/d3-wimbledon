@@ -32,12 +32,20 @@ let redraw = (state) => {
   console.log('ini state data goals', dataGoals)
 
 const yScale = d3.scaleLinear()
-    .domain([d3.max(dataGoals),0])
+    .domain([0, d3.max(dataGoals)])
     .range([0, height])
 
 const xScale = d3.scaleLinear()
-    .domain([0, state.length])
+    .domain([0, dataGoals.length])
     .range([0, width])
+
+const colorScale = d3.scaleLinear()
+    .domain([0, d3.max(dataGoals)])
+    .range(['peru', 'teal'])
+
+const yAxisScale = d3.scaleLinear()
+    .domain([0, d3.max(dataGoals)])
+    .range([height - 20, 0])
 
     svg.selectAll('rect')
     .data(dataGoals)
@@ -46,18 +54,18 @@ const xScale = d3.scaleLinear()
     .transition().delay(750)
     .attr('class', 'bar')
     .attr('x', (d, i) => {
-      return i * 35 + 30
+      return i * 25 + 25
     })
     .attr('y', (d) => {
-      return height - yScale(d) -20
+      return height - yScale(d) - 20
     })
     .attr('width', 20)
     .attr('height', (d) => {
       return yScale(d)
     })
-    .attr('fill', 'blue')
+    .attr('fill', colorScale)
 
-    let yAxis = d3.axisLeft().scale(yScale)
+    let yAxis = d3.axisLeft().scale(yAxisScale)
     let xAxis = d3.axisBottom().scale(xScale)
     svg.append('g')
     .attr('transform', 'translate(25, 0)')
