@@ -11,7 +11,7 @@ let svg = d3.select('#results')
   .append('svg')
   .attr('width', width + marginLeft)
   .attr('height', height)
-  .style('background', '#eaeaea')
+  .style('background', 'pink')
   .style('margin', '20px')
 
 // Data reloading
@@ -33,11 +33,11 @@ let redraw = (dataset) => {
     return goal.GoalsScored
   })
 
-  console.log(arrGoalsScored);
+  // console.log(arrGoalsScored);
 
   const yScale = d3.scaleLinear()
                    .domain([0, d3.max(arrGoalsScored)])
-                   .range([0, (height - margin)]);
+                   .range([(height - margin), 0]);
 
   const yAxis = d3.axisLeft().scale(yScale)
   svg.append('g').attr('class', 'yaxis').attr('transform', 'translate(30, 0)').call(yAxis)
@@ -61,17 +61,17 @@ let redraw = (dataset) => {
       .attr('x', function(d, index) {
         return xScale(index) + 30
       })
+      .attr('y', yScale(0)  )
+      .transition()
+      .delay(3000)
       .attr('y', function(d) {
-        return height - yScale(d) - 20
+        return yScale(d)
       })
       .attr('width', '10')
       .attr('height', function(d) {
-        return yScale(d)
+        return (yScale(0) - yScale(d))
       })
       .attr('fill', bgcolor)
-      .transition()
-      .duration(1000)
-      .ease()
 }
 
 reload()
