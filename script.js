@@ -9,8 +9,10 @@ const canvasMargin = 20
 // Drawing area
 d3.select('#results')
   .append('svg')
-  .attr('width', canvasWidth)
-  .attr('height', canvasHeight)
+  .attr('width', canvasWidth + canvasMarginLeft)
+  .attr('height', canvasHeight + canvasMargin)
+  .append('g')
+  .attr('transform', `translate(${canvasMarginLeft}, ${canvasMargin})`)
 
 let svg = d3.select('svg')
 
@@ -31,28 +33,41 @@ let redraw = (games) => {
   })
 
   const xScale = d3.scaleLinear()
-                   .domain([0, games.length])
+                   .domain([0, games.length + 1])
                    .range([0, canvasWidth - canvasMargin])
 
   const yScale = d3.scaleLinear()
                    .domain([0, Math.max(...goals)])
-                   .range([canvasHeight - canvasMargin, 0])
+                   .range([(canvasHeight - (canvasMargin / 2)) - (canvasMarginLeft + 10), 0])
 
   svg.selectAll('rect')
      .data(games)
      .enter()
      .append('rect')
+     .attr('height', 0)
+     .attr('y', yScale(-(canvasMargin / 100)))
      .attr('width', canvasMargin / 2)
+     .attr('x', (game, index) => {
+       return xScale(index) + canvasMarginLeft
+     })
+     .transition()
+     .duration(600)
+     .delay((game, index) => { return index * 100 })
      .attr('height', (game) => {
        return yScale(0) - yScale(game.GoalsScored)
      })
-     .attr('x', (game, index) => {
-       return xScale(index)
-     })
      .attr('y', (game) => {
-       return yScale(game.GoalsScored)
+       return yScale(game.GoalsScored) + (canvasMargin / 2)
      })
      .attr('fill', 'teal')
+
+  svg.append('g')
+     .attr('transform', 'translate('+ canvasMarginLeft +','+ (canvasHeight - ((canvasMarginLeft + 10))) +')')
+     .call(d3.axisBottom(xScale).tickValues(d3.range(0, games.length + 1)))
+
+  svg.append('g')
+     .attr('transform', 'translate(40, 10)')
+     .call(d3.axisLeft(yScale).tickValues(d3.range(0, Math.max(...goals) + 1)))
 }
 
 reload()
