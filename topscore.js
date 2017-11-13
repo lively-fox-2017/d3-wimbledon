@@ -12,7 +12,7 @@ const draw = (words) => {
   .attr('height', 700)
   .attr("class", "wordcloud")
   .append('g')
-  .attr('transform', 'translate(640, 200) scale(1.5)')
+  .attr('transform', 'translate(680, 250) scale(1.5)')
   .selectAll('text')
   .data(words)
   .enter()
@@ -31,7 +31,7 @@ const load = () => {
     let words = rows.map(row => ({name: row.Name, goals: row.G})).sort((a, b) => b.goals - a.goals)
 
     d3.layout.cloud()
-    .size([1600, 600])
+    .size([1600, 500])
     .words(words)
     .rotate(0)
     .fontSize(d => d.goals)
