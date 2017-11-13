@@ -71,7 +71,7 @@ const yAxisScale = d3.scaleLinear()
     .attr('transform', 'translate(25, 0)')
     .call(yAxis)
     svg.append('g')
-    .attr('transform', 'translate(0, 280)')
+    .attr('transform', 'translate(25, 280)')
     .call(xAxis)
 }
 
