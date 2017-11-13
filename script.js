@@ -8,12 +8,6 @@ const width = 750,
   scaleFactor = 100
 
 // Drawing area
-// let svg = d3.select('#results')
-//   .append('svg')
-//   .attr('width', width)
-//   .attr('height', height)
-
-// Drawing area
 let svg = d3.select('#results')
   .append('svg')
   .attr('width', width)
@@ -23,13 +17,12 @@ let svg = d3.select('#results')
 let reload = () => {
   // Your data parsing here...
   d3.tsv('afcw-results.tsv', (rows) => {
-    console.log(JSON.stringify(rows))
+    // console.log(JSON.stringify(rows))
     let afcwResult = rows.map(item => {
       return parseInt(item.GoalsScored)
     })
-    // let haha = [5,10,12]
+    console.log(afcwResult)
     redraw(afcwResult)
-    // redraw(haha)
     // alert(JSON.stringify(afcwResult))
   })
 }
@@ -38,39 +31,69 @@ let reload = () => {
 // redraw function
 let redraw = (data) => {
   // Your data to graph here
+  var linearScale = d3.scaleLinear()
+      .domain([d3.min(data), d3.max(data)])
+      .range([0, 280])
+
+  // var vertiLinearScale = d3.scaleLinear()
+  //     .domain([0,46])
+  //     .range([0,width])
+
+  var verticalScale = d3.scaleLinear()
+    .domain([d3.max(data), d3.min(data)])
+    .range([0, 280])
+
+  var horizontalScale = d3.scaleLinear()
+      .domain([0, data.length])
+      .range([30, width])
+
   var bar = svg.selectAll("g")
     .data(data)
     .enter()
     .append("g")
     .attr("transform", function (d, i) {
-      return "translate(" + i * width/data.length + ",0)";
+      return "translate(" + horizontalScale(i) + ",0)";
     });  
 
-  // alert(JSON.stringify(bar))
-
   bar.append("rect")
-    .attr("y", function(d){return height - d*50})
+    .attr("y", function(d){return 280 - linearScale(d)})
+    // .attr("x", function(d,i){
+    //   return horizontalScale(i)
+    // })
     .attr("height", function (d) {
-      return d * scaleFactor;
+      // return (d * 70)
+      // return d *100
+      return linearScale(d)
     })
-    .attr("width", 10);
+    .attr("width",10)
 
-  var x_axis = d3.axisBottom()
-  var y_axis = d3.axisLeft()
+  var x_scale = d3.axisBottom()
+                .scale(horizontalScale)
+  
+  var y_scale = d3.axisLeft()
+                .scale(verticalScale)
 
   svg.append("g")
-    // .attr("transform", "translate(0," + height + ")")
-    .call(x_axis)
+    .attr("transform", "translate(0,280)")
+    .call(x_scale)
 
-  // Add the Y Axis
   svg.append("g")
-    .call(y_axis)
+    .attr("transform", "translate(30,0)")
+    // .tick()
+    .call(y_scale)
 
-  // bar.append("text")
-  //   .attr("x", function (d) { return (d * 50); })
-  //   .attr("y", function(d){return 100})
-  //   .attr("dy", ".35em")
-  //   .text(function (d) { return d; });
+  var t = d3.transition()
+    .duration(750)
+    .ease(d3.easeLinear)
+  d3.selectAll("g").transition(t)
+    .style("stroke", "teal")
+    .style("fill", "teal")
+    .duration(function (d, i) {
+      return i * 100
+    })
+    .delay(function(d,i){
+      return i *100
+    })
 }
 
 reload()
