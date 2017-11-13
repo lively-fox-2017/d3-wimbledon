@@ -34,11 +34,11 @@ let redraw = (data) => {
                     .domain([d3.min(data), d3.max(data)])
                     .range([0,300])
 
-  var horizontalScale = d3.scaleLinear()
+  var verticalScale = d3.scaleLinear()
                     .domain([d3.max(data), d3.min(data)])
                     .range([0,280])
 
-  var verticalScale = d3.scaleLinear()
+  var horizontalScale = d3.scaleLinear()
                     .domain([0, data.length])
                     .range([0,750])
 
@@ -60,10 +60,10 @@ let redraw = (data) => {
       });
 
   var x_axis = d3.axisBottom()
-              .scale(verticalScale);
+              .scale(horizontalScale);
 
   var y_axis = d3.axisLeft()
-              .scale(horizontalScale);
+              .scale(verticalScale);
   
   svg.append("g")
      .attr("transform", "translate(30, 0)")
