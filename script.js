@@ -32,7 +32,7 @@ let redraw = (state) => {
   console.log('ini state data goals', dataGoals)
 
 const yScale = d3.scaleLinear()
-    .domain([0, d3.max(dataGoals)])
+    .domain([d3.max(dataGoals),0])
     .range([0, height])
 
 const xScale = d3.scaleLinear()
@@ -43,26 +43,25 @@ const xScale = d3.scaleLinear()
     .data(dataGoals)
     .enter()
     .append('rect')
+    .transition().delay(750)
     .attr('class', 'bar')
     .attr('x', (d, i) => {
-      return i * 25
+      return i * 35 + 30
     })
     .attr('y', (d) => {
-      return height - yScale(d)
+      return height - yScale(d) -20
     })
     .attr('width', 20)
     .attr('height', (d) => {
       return yScale(d)
     })
-    .attr('fill', yScale)
+    .attr('fill', 'blue')
 
     let yAxis = d3.axisLeft().scale(yScale)
     let xAxis = d3.axisBottom().scale(xScale)
-
     svg.append('g')
-    .attr('transform', 'translate(30, 0)')
+    .attr('transform', 'translate(25, 0)')
     .call(yAxis)
-
     svg.append('g')
     .attr('transform', 'translate(0, 280)')
     .call(xAxis)
