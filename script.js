@@ -15,6 +15,23 @@ let svg = d3.select('#results')
 // Data reloading
 let reload = () => {
   // Your data parsing here...
+  d3.tsv('afcw-results.tsv', (rows) => {
+  console.log(rows)
+    svg
+    .selectAll('rect')
+    .data(rows)
+    .enter()
+    .append('rect')
+    .attr('width', 20)
+    .attr('height', 201)
+    .attr('fill', '#0000')
+    .attr('x', (d, i) => {
+      return i * 25
+    })
+    .attr('y', (d, i) => {
+      return i
+    })
+  })
 }
 
 // redraw function
