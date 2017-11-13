@@ -28,14 +28,6 @@ let reload = () => {
 // redraw function
 let redraw = (data) => {
   // Your data to graph here
-  // svg.append('svg')
-  // .attr('width',width)
-  // .attr('height',height)
-  // .style('background','#cacaca')
-  // const svg = d3.select('#results').append('svg')
-  //             .attr('width',width)
-  //             .attr('height',height)
-              // .style('background','#cacaca')
   // const g
   const yScale = d3.scaleLinear()
     .domain([0,10])
@@ -61,6 +53,7 @@ let redraw = (data) => {
   .data(data)
   .enter()
   .append('rect')
+  .transition().duration(700).ease(d3.easeLinear)
   .attr('class', 'bar')
   .attr('x', (d, i) => {
     return i * 25+25
