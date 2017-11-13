@@ -32,7 +32,7 @@ let redraw = (data) => {
   // Your data to graph here
   var linearScale = d3.scaleLinear()
                     .domain([d3.min(data), d3.max(data)])
-                    .range([0,300])
+                    .range([0,280])
 
   var verticalScale = d3.scaleLinear()
                     .domain([d3.max(data), d3.min(data)])
@@ -40,17 +40,18 @@ let redraw = (data) => {
 
   var horizontalScale = d3.scaleLinear()
                     .domain([0, data.length])
-                    .range([0,750])
+                    .range([30,750])
 
   var bar = svg.selectAll("g")
             .data(data)
             .enter()
             .append("g")
             .attr("transform", function(d, i) {
-                return "translate(" + i * 750/data.length + ", 0)";
+                return "translate(" + horizontalScale(i) + ", 0)";
             });
   
   bar.append("rect")
+      // .attr("x", function(d) { return horizontalScale(d)})
       .attr("y", function(d) { return 280 - linearScale(d); })
       .attr("height", function(d) {
           return linearScale(d);
