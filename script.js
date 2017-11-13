@@ -47,6 +47,7 @@ let redraw = (data) => {
     .data(data)
     .enter()
     .append('rect')
+    .transition().duration(750).ease(d3.easeLinear)
     .attr('class', 'bar')
     .attr('x', (d, i) => {
       // console.log('---->', d)
@@ -75,7 +76,7 @@ let redraw = (data) => {
   // bottom
   var xscale = d3.scaleLinear()
     .domain([0, data.length])
-    .range([0, width - 13]);
+    .range([0, width - 11]);
 
   var x_axis = d3.axisBottom()
     .scale(xscale);
