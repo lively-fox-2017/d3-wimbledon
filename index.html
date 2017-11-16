@@ -3,17 +3,41 @@
 <head>
   <meta charset="UTF-8">
   <title>D3 Challenge</title>
+  <style media="screen">
+  .scaling-svg-container {
+position: relative;
+height: 0;
+width: 100%;
+padding: 0;
+padding-bottom: 100%;
+/* override this inline for aspect ratio other than square */
+}
+.scaling-svg {
+position: absolute;
+height: 100%;
+width: 100%;
+left: 0;
+top: 0;
+}
+  </style>
 </head>
 <body>
   <div id="container">
-  
+
     <h1>AFC Wimbledon Results</h1>
     <div id="results"></div>
     <hr />
     <h2>AFC Wimbledon Top Scorer</h2>
-    <div id="top-score"></div>
+    <div id="top-score" class="scaling-svg-container"></div>
   </div>
   <script src="https://d3js.org/d3.v4.js"></script>
+  <script src="https://d3js.org/d3-color.v1.min.js"></script>
+  <script src="https://d3js.org/d3-dispatch.v1.min.js"></script>
+  <script src="https://d3js.org/d3-ease.v1.min.js"></script>
+  <script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
+  <script src="https://d3js.org/d3-selection.v1.min.js"></script>
+  <script src="https://d3js.org/d3-timer.v1.min.js"></script>
+  <script src="https://d3js.org/d3-transition.v1.min.js"></script>
   <script src="script.js"></script>
   <script src="d3.layout.cloud.js"></script>
   <script src="topscore.js"></script>
